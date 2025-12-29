@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Student Dashboard</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background-color: #f4f4f9; display: flex; justify-content: center; padding-top: 50px; }
+        .card { background: white; padding: 40px; width: 100%; max-width: 600px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        h1 { color: #000080; text-align: center; }
+        .info-box { background: #eef; padding: 15px; border-left: 5px solid #000080; margin-bottom: 20px; }
+        .course-list { list-style: none; padding: 0; }
+        .course-btn { 
+            background: #fff; border: 1px solid #ddd; border-left: 5px solid #000080;
+            width: 100%; padding: 15px; margin-bottom: 10px; text-align: left;
+            cursor: pointer; transition: all 0.2s; display: flex; justify-content: space-between; align-items: center;
+        }
+        .course-btn:hover { background: #f0f0ff; transform: translateX(5px); }
+        .course-code { font-weight: bold; font-size: 18px; color: #333; }
+        .course-title { color: #666; font-size: 14px; }
+        .arrow { font-weight: bold; color: #000080; }
+        .back-btn { display: block; width: 100%; text-align: center; margin-top: 20px; padding: 12px; background: #555; color: white; text-decoration: none; border-radius: 8px; }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <h1>Student Dashboard</h1>
+        
+        <div class="info-box">
+            <h3 id="displayDept" style="margin:0">Loading...</h3>
+            <p id="displayLevel" style="margin:5px 0 0 0">Loading...</p>
+        </div>
+
+        <h3>Your Courses:</h3>
+        <ul id="courseListContainer" class="course-list">
+            </ul>
+
+        <a href="index.html" class="back-btn">Log Out</a>
+    </div>
+
+  <script>
+    // --- COURSE DATABASE ---
+    const courseDatabase = {
+        
+        // ============================================================
+        // 100 LEVEL (GENERAL ENGINEERING) - SHARED BY ALL DEPTS
+        // ============================================================
+        "Metallurgical & Materials Engineering_100L_First Semester": [
+            { code: "MTH 101", title: "Elementary Mathematics I", pdf: "mth101.pdf" },
+            { code: "PHY 101", title: "General Physics I", pdf: "phy101.pdf" },
+            { code: "CHM 101", title: "General Chemistry I", pdf: "chm101.pdf" },
+            { code: "GSE 101", title: "Use of English I", pdf: "gse101.pdf" },
+            { code: "GSE 103", title: "Library Skills", pdf: "gse103.pdf" }
+        ],
+        "Metallurgical & Materials Engineering_100L_Second Semester": [
+            { code: "MTH 102", title: "Elementary Mathematics II", pdf: "mth102.pdf" },
+            { code: "PHY 102", title: "General Physics II", pdf: "phy102.pdf" },
+            { code: "CHM 102", title: "General Chemistry II", pdf: "chm102.pdf" },
+            { code: "GSE 102", title: "Use of English II", pdf: "gse102.pdf" },
+            { code: "MEE 102", title: "Workshop Practice", pdf: "mee102.pdf" }
+        ],
+
+        // ============================================================
+        // 200 LEVEL (GENERAL ENGINEERING)
+        // ============================================================
+        "Metallurgical & Materials Engineering_200L_First Semester": [
+            { code: "MTH 201", title: "Mathematical Methods I", pdf: "mth201.pdf" },
+            { code: "MEE 201", title: "Applied Thermodynamics I", pdf: "mee201.pdf" },
+            { code: "MEE 203", title: "Fluid Mechanics I", pdf: "mee203.pdf" },
+            { code: "EEG 201", title: "Basic Electrical Engineering", pdf: "eeg201.pdf" },
+            { code: "GSE 201", title: "Logic & Critical Thinking", pdf: "gse201.pdf" }
+        ],
+        "Metallurgical & Materials Engineering_200L_Second Semester": [
+            { code: "MTH 202", title: "Mathematical Methods II", pdf: "mth202.pdf" },
+            { code: "MEE 202", title: "Strength of Materials", pdf: "mee202.pdf" },
+            { code: "MEE 204", title: "Engineering Drawing", pdf: "mee204.pdf" },
+            { code: "CSC 202", title: "Computer Programming (Fortran/C)", pdf: "csc202.pdf" },
+            { code: "GSE 202", title: "Peace & Conflict Resolution", pdf: "gse202.pdf" }
+        ],
+
+        // ============================================================
+        // 300 LEVEL (MME SPECIFIC)
+        // ============================================================
+        "Metallurgical & Materials Engineering_300L_First Semester": [
+            { code: "MME 301", title: "Introduction to Metallurgy", pdf: "mme301.pdf" },
+            { code: "MME 303", title: "Transport Phenomena", pdf: "mme303.pdf" },
+            { code: "MME 305", title: "Mineral Processing", pdf: "mme305.pdf" },
+            { code: "MEE 301", title: "Engineering Math III", pdf: "mee301.pdf" },
+            { code: "GET 301", title: "Engineering Management", pdf: "get301.pdf" }
+        ],
+        "Metallurgical & Materials Engineering_300L_Second Semester": [
+            { code: "MME 302", title: "Iron and Steel Making I", pdf: "mme302.pdf" },
+            { code: "MME 304", title: "Non-Ferrous Extraction Metallurgy", pdf: "mme304.pdf" },
+            { code: "MME 306", title: "Polymer Science", pdf: "mme306.pdf" },
+            { code: "MME 308", title: "Phase Transformation", pdf: "mme308.pdf" },
+            { code: "SIWES", title: "Students Industrial Work Experience", pdf: "siwes.pdf" }
+        ],
+
+        // ============================================================
+        // 400 LEVEL (Your Custom List)
+        // ============================================================
+        "Metallurgical & Materials Engineering_400L_First Semester": [
+            { code: "GET 411", title: "Engineering Cost", pdf: "get411.pdf" },
+            { code: "MME 411", title: "Fundamental of Corrosion", pdf: "mme411.pdf" },
+            { code: "MME 421", title: "Experimental Techniques", pdf: "mme421.pdf" },
+            { code: "MME 423", title: "Foundry Technology", pdf: "mme423.pdf" },
+            { code: "MME 425", title: "Heat Treatment", pdf: "mme425.pdf" },
+            { code: "MME 427", title: "Fuels Furnaces and Refractories", pdf: "mme427.pdf" },
+            { code: "MME 429", title: "Physical Metallurgy II", pdf: "mme429.pdf" },
+            { code: "MME 431", title: "Manufacturing Technology", pdf: "mme431.pdf" },
+            { code: "MME 433", title: "Metal Forming", pdf: "mme433.pdf" },
+            { code: "STA 405", title: "Engineering Statistics", pdf: "sta405.pdf" }
+        ],
+        // Note: You said all 400L courses are 1st semester, so 2nd is empty
+        "Metallurgical & Materials Engineering_400L_Second Semester": [],
+
+        // ============================================================
+        // 500 LEVEL (FINAL YEAR)
+        // ============================================================
+        "Metallurgical & Materials Engineering_500L_First Semester": [
+            { code: "MME 501", title: "Advanced Corrosion Engineering", pdf: "mme501.pdf" },
+            { code: "MME 503", title: "Iron and Steel Making II", pdf: "mme503.pdf" },
+            { code: "MME 505", title: "Composite Materials", pdf: "mme505.pdf" },
+            { code: "MME 507", title: "Project Seminar", pdf: "mme507.pdf" }
+        ],
+        "Metallurgical & Materials Engineering_500L_Second Semester": [
+            { code: "MME 519", title: "Final Year Project", pdf: "project.pdf" },
+            { code: "MME 502", title: "Material Selection", pdf: "mme502.pdf" },
+            { code: "MME 504", title: "Failure Analysis", pdf: "mme504.pdf" }
+        ]
+    };
+
+    // --- LOGIC TO LOAD COURSES ---
+    const dept = localStorage.getItem("userDept");
+    const level = localStorage.getItem("userLevel");
+    const semester = localStorage.getItem("userSemester");
+
+    // Default to First Semester if undefined
+    const safeSemester = semester ? semester : "First Semester"; 
+    const lookupKey = dept + "_" + level + "_" + safeSemester;
+
+    // Display Header Info
+    if (dept && level) {
+        document.getElementById("displayDept").innerText = dept;
+        document.getElementById("displayLevel").innerText = level + " - " + safeSemester;
+    } else {
+        document.getElementById("displayDept").innerText = "Please Log In Again";
+    }
+
+    // Load Courses
+    const container = document.getElementById("courseListContainer");
+    const courses = courseDatabase[lookupKey];
+
+    if (courses && courses.length > 0) {
+        courses.forEach(course => {
+            const li = document.createElement("li");
+            li.innerHTML = `
+                <button class="course-btn" onclick="openCourse('${course.code}', '${course.title}', '${course.pdf}')">
+                    <div>
+                        <div class="course-code">${course.code}</div>
+                        <div class="course-title">${course.title}</div>
+                    </div>
+                    <span class="arrow">View ></span>
+                </button>
+            `;
+            container.appendChild(li);
+        });
+    } else {
+        container.innerHTML = `
+            <div style="text-align:center; padding:20px; color:#666;">
+                <h3>No courses found.</h3>
+                <p>We haven't added the course list for <strong>${lookupKey}</strong> yet.</p>
+                <p><em>(Try MME 100L, 200L, or 400L First Semester to see working examples)</em></p>
+            </div>`;
+    }
+
+    function openCourse(code, title, pdfName) {
+        localStorage.setItem("currentCourseCode", code);
+        localStorage.setItem("currentCourseTitle", title);
+        localStorage.setItem("currentPDF", pdfName);
+        window.location.href = "course_view.html";
+    }
+</script>
+</body>
+</html>

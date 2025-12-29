@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Material</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background-color: #333; color: white; margin: 0; display: flex; flex-direction: column; height: 100vh; }
+        
+        /* HEADER STYLING */
+        .header { 
+            background: #000080; 
+            padding: 15px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3); 
+        }
+
+        /* TEXT STYLING */
+        .title-group h2 { margin: 0; font-size: 18px; }
+        .title-group p { margin: 0; font-size: 13px; opacity: 0.8; }
+        
+        /* BUTTON GROUP */
+        .btn-group { display: flex; gap: 10px; }
+
+        /* SHARED BUTTON STYLES */
+        .btn { 
+            text-decoration: none; 
+            padding: 8px 12px; 
+            border-radius: 5px; 
+            font-size: 14px; 
+            font-weight: bold;
+            display: inline-block;
+        }
+
+        .back-btn { background: rgba(255,255,255,0.2); color: white; }
+        .back-btn:hover { background: rgba(255,255,255,0.4); }
+
+        /* DOWNLOAD BUTTON (GREEN) */
+        .download-btn { background: #28a745; color: white; }
+        .download-btn:hover { background: #218838; }
+
+        /* PDF VIEWER */
+        .pdf-container { flex-grow: 1; width: 100%; background: #555; }
+        iframe { width: 100%; height: 100%; border: none; }
+        
+        .error-msg { text-align: center; padding-top: 50px; color: #ccc; }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <div class="title-group">
+            <h2 id="courseCode">Loading...</h2>
+            <p id="courseTitle">...</p>
+        </div>
+        
+        <div class="btn-group">
+            <a id="downloadBtn" href="#" class="btn download-btn" download>Download PDF</a>
+            <a href="dashboard.html" class="btn back-btn">Back</a>
+        </div>
+    </div>
+
+    <div class="pdf-container" id="pdfViewer">
+        </div>
+
+    <script>
+        // 1. Get details from memory
+        const code = localStorage.getItem("currentCourseCode");
+        const title = localStorage.getItem("currentCourseTitle");
+        const pdfFile = localStorage.getItem("currentPDF");
+
+        // 2. Update Header Text
+        if(code) {
+            document.getElementById("courseCode").innerText = code;
+            document.getElementById("courseTitle").innerText = title;
+        }
+
+        // 3. Load PDF and Setup Download Button
+        if(pdfFile) {
+            const viewer = document.getElementById("pdfViewer");
+            const downloadBtn = document.getElementById("downloadBtn");
+            const filePath = `pdfs/${pdfFile}`;
+
+            // Set the PDF Viewer
+            viewer.innerHTML = `<iframe src="${filePath}"></iframe>`;
+
+            // Set the Download Link
+            downloadBtn.href = filePath;
+            // (Optional) Force the downloaded filename to be neat
+            downloadBtn.setAttribute("download", `${code}_${title}.pdf`);
+        } else {
+            document.getElementById("pdfViewer").innerHTML = "<div class='error-msg'>No PDF file attached to this course.</div>";
+            document.getElementById("downloadBtn").style.display = "none"; // Hide button if no PDF
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Selection System</title>
+    <style>
+        /* SAME STYLING AS BEFORE */
+        body { font-family: 'Segoe UI', sans-serif; background-color: #f4f4f9; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .container { background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); width: 100%; max-width: 400px; }
+        h2 { text-align: center; color: #333; margin-bottom: 1.5rem; }
+        .form-group { margin-bottom: 1.5rem; }
+        label { display: block; margin-bottom: 0.5rem; font-weight: 600; color: #555; }
+        select { width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 16px; color: #333; background-color: #fff; cursor: pointer; }
+        select:disabled { background-color: #eee; cursor: not-allowed; }
+        .btn { width: 100%; padding: 12px; background-color: #000080; color: white; border: none; border-radius: 8px; font-size: 16px; cursor: pointer; font-weight: bold; }
+        .btn:hover { background-color: #000060; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Student Registration</h2>
+
+    <div class="form-group">
+        <label>1. Select Faculty</label>
+        <select id="faculty" onchange="updateDepartments()">
+            <option value="" selected disabled>-- Choose Faculty --</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>2. Select Department</label>
+        <select id="department" disabled onchange="updateLevels()">
+            <option value="" selected disabled>-- Choose Faculty First --</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>3. Select Level</label>
+        <select id="level" disabled onchange="enableSemester()">
+            <option value="" selected disabled>-- Choose Department First --</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>4. Select Semester</label>
+        <select id="semester" disabled>
+            <option value="" selected disabled>-- Choose Level First --</option>
+            <option value="First Semester">First Semester</option>
+            <option value="Second Semester">Second Semester</option>
+        </select>
+    </div>
+
+    <button class="btn" onclick="captureSelection()">Continue</button>
+</div>
+
+<script>
+    // --- DATA STRUCTURE ---
+    const universityData = {
+        "Faculty of Air Engineering": { duration: 5, departments: ["Aerospace Engineering", "Mechatronics Engineering", "Automotive Engineering", "Mechanical Engineering", "Metallurgical & Materials Engineering"] },
+        "Faculty of Ground & Communication Engineering": { duration: 5, departments: ["Information & Communication Eng.", "Electrical Engineering", "Civil Engineering", "Telecommunication Engineering"] },
+        "Faculty of Sciences": { duration: 4, departments: ["Statistics", "Chemistry", "Mathematics", "Physics with Electronics", "Physics"] },
+        "Faculty of Computing": { duration: 4, departments: ["Computer Science", "Cyber Security"] }
+    };
+
+    const facultySelect = document.getElementById("faculty");
+    const deptSelect = document.getElementById("department");
+    const levelSelect = document.getElementById("level");
+    const semesterSelect = document.getElementById("semester");
+
+    // Initialize Faculties
+    window.onload = function() {
+        for (let faculty in universityData) {
+            let option = document.createElement("option");
+            option.value = faculty;
+            option.text = faculty;
+            facultySelect.add(option);
+        }
+    };
+
+    function updateDepartments() {
+        deptSelect.innerHTML = '<option value="" selected disabled>-- Choose Department --</option>';
+        levelSelect.innerHTML = '<option value="" selected disabled>-- Choose Department First --</option>';
+        semesterSelect.disabled = true;
+        deptSelect.disabled = false;
+        levelSelect.disabled = true;
+
+        let departments = universityData[facultySelect.value].departments;
+        departments.forEach(dept => {
+            let option = document.createElement("option");
+            option.value = dept;
+            option.text = dept;
+            deptSelect.add(option);
+        });
+    }
+
+    function updateLevels() {
+        levelSelect.innerHTML = '<option value="" selected disabled>-- Choose Level --</option>';
+        levelSelect.disabled = false;
+        semesterSelect.disabled = true;
+
+        let duration = universityData[facultySelect.value].duration;
+        for (let i = 1; i <= duration; i++) {
+            let val = i * 100 + "L";
+            let option = document.createElement("option");
+            option.value = val;
+            option.text = val;
+            levelSelect.add(option);
+        }
+    }
+
+    // NEW: Enable Semester Dropdown
+    function enableSemester() {
+        semesterSelect.disabled = false;
+        semesterSelect.value = ""; // Reset selection
+    }
+
+    // UPDATED: Capture Data including Semester
+    function captureSelection() {
+        const fac = facultySelect.value;
+        const dept = deptSelect.value;
+        const lev = levelSelect.value;
+        const sem = semesterSelect.value; // Get Semester
+
+        if (fac === "" || dept === "" || lev === "" || sem === "") {
+            alert("Please complete all fields.");
+            return;
+        }
+
+        localStorage.setItem("userFaculty", fac);
+        localStorage.setItem("userDept", dept);
+        localStorage.setItem("userLevel", lev);
+        localStorage.setItem("userSemester", sem); // Save Semester
+
+        window.location.href = "dashboard.html";
+    }
+</script>
+</body>
+</html>
