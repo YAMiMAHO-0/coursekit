@@ -4,14 +4,14 @@
     <meta charset="UTF-8">
     <title>Student Dashboard</title>
     <link rel="icon" type="image/png" href="coursekit.png">
-   <style>/* MOBILE FIXES (APP MODE) */
-        /* BASE STYLES */
+   <style>
+        
         body { 
             font-family: 'Segoe UI', sans-serif; 
             background-color: #f4f4f9; 
             display: flex; 
             justify-content: center; 
-            /* Remove fixed padding-top so it centers better on mobile */
+            
             padding: 20px; 
             min-height: 100vh;
             box-sizing: border-box;
@@ -24,7 +24,7 @@
             max-width: 600px; 
             border-radius: 12px; 
             box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
-            height: fit-content; /* Important for alignment */
+            height: fit-content;
         }
 
         h1 { color: #000080; text-align: center; margin-top: 0; }
@@ -47,28 +47,28 @@
             border-radius: 6px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
-        .course-btn:active { transform: scale(0.98); background: #f0f0ff; } /* Tap effect for phone */
+        .course-btn:active { transform: scale(0.98); background: #f0f0ff; }
         .course-code { font-weight: bold; font-size: 18px; color: #333; }
         .course-title { color: #666; font-size: 14px; margin-top: 2px;}
         .arrow { font-weight: bold; color: #000080; font-size: 18px; }
         .back-btn { display: block; width: 100%; text-align: center; margin-top: 20px; padding: 15px; background: #555; color: white; text-decoration: none; border-radius: 8px; font-weight: bold;}
         @media (max-width: 600px) {
             body {
-                padding: 0; /* Remove grey edges */
-                background-color: white; /* Match card color */
-                align-items: flex-start; /* Start from top */
+                padding: 0;
+                background-color: white; 
+                align-items: flex-start; 
             }
             .card {
                 padding: 20px;
                 width: 100%;
                 max-width: 100%;
-                box-shadow: none; /* Flat look for mobile */
-                border-radius: 0; /* Square corners */
-                height: 100vh; /* Fill full height */
+                box-shadow: none; 
+                border-radius: 0; 
+                height: 100vh; 
             }
             h1 { font-size: 22px; margin-top: 10px; }
-            .course-btn { padding: 15px; } /* Easier to tap */
-            .back-btn { margin-bottom: 50px; } /* Space for scrolling */
+            .course-btn { padding: 15px; }
+            .back-btn { margin-bottom: 50px; }
         }
         </style>
 </head>
@@ -235,6 +235,7 @@
 </body>
 
 </html>
+
 
 
 
