@@ -7,7 +7,6 @@
     <style>
         body { font-family: 'Segoe UI', sans-serif; background-color: #333; color: white; margin: 0; display: flex; flex-direction: column; height: 100vh; }
         
-        /* HEADER STYLING */
         .header { 
             background: #000080; 
             padding: 15px; 
@@ -15,16 +14,14 @@
             justify-content: space-between; 
             align-items: center; 
             box-shadow: 0 2px 10px rgba(0,0,0,0.3); 
+            z-index: 10; /* Ensures header stays on top */
         }
 
-        /* TEXT STYLING */
         .title-group h2 { margin: 0; font-size: 18px; }
         .title-group p { margin: 0; font-size: 13px; opacity: 0.8; }
         
-        /* BUTTON GROUP */
         .btn-group { display: flex; gap: 10px; }
 
-        /* SHARED BUTTON STYLES */
         .btn { 
             text-decoration: none; 
             padding: 8px 12px; 
@@ -32,20 +29,37 @@
             font-size: 14px; 
             font-weight: bold;
             display: inline-block;
+            white-space: nowrap; /* Prevents text breaking */
         }
 
         .back-btn { background: rgba(255,255,255,0.2); color: white; }
-        .back-btn:hover { background: rgba(255,255,255,0.4); }
-
-        /* DOWNLOAD BUTTON (GREEN) */
         .download-btn { background: #28a745; color: white; }
-        .download-btn:hover { background: #218838; }
 
-        /* PDF VIEWER */
-        .pdf-container { flex-grow: 1; width: 100%; background: #555; }
-        iframe { width: 100%; height: 100%; border: none; }
-        
+        .pdf-container { flex-grow: 1; width: 100%; background: #555; position: relative; }
+        iframe { width: 100%; height: 100%; border: none; display: block; }
         .error-msg { text-align: center; padding-top: 50px; color: #ccc; }
+
+        /* MOBILE FIXES */
+        @media (max-width: 600px) {
+            .header {
+                flex-direction: column; /* Stack items vertically */
+                text-align: center;
+                gap: 15px;
+            }
+            .title-group {
+                width: 100%;
+                border-bottom: 1px solid rgba(255,255,255,0.1);
+                padding-bottom: 10px;
+            }
+            .btn-group {
+                width: 100%;
+                justify-content: space-around; /* Spread buttons out */
+            }
+            .btn {
+                flex: 1; /* Make buttons equal width */
+                text-align: center;
+            }
+        }
     </style>
 </head>
 <body>
@@ -97,4 +111,5 @@
     </script>
 
 </body>
+
 </html>
