@@ -6,7 +6,29 @@
     <link rel="icon" type="image/png" href="coursekit.png">
     <title>CourseKit</title>
    <style>
-   /* MOBILE FIXES (APP MODE) */
+       <style>
+        /* BASE STYLES (Desktop) */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f4f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh; /* Changed from height to min-height for scrolling */
+            margin: 0;
+            padding: 20px; /* Add padding to body for mobile edges */
+            box-sizing: border-box;
+        }
+
+        .container {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+/* MOBILE FIXES (APP MODE) */
         @media (max-width: 600px) {
             body {
                 padding: 0;
@@ -23,7 +45,17 @@
                 justify-content: center; /* Keep login centered */
             }
             h2 { font-size: 24px; }
-        }     
+        }
+
+        /* REST OF YOUR STYLES */
+        h2 { text-align: center; color: #333; margin-bottom: 1.5rem; }
+        .form-group { margin-bottom: 1.5rem; }
+        label { display: block; margin-bottom: 0.5rem; font-weight: 600; color: #555; }
+        select { width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 16px; color: #333; background-color: #fff; cursor: pointer; box-sizing: border-box;}
+        select:disabled { background-color: #eee; cursor: not-allowed; }
+        .btn { width: 100%; padding: 12px; background-color: #000080; color: white; border: none; border-radius: 8px; font-size: 16px; cursor: pointer; font-weight: bold; transition: background 0.3s;}
+        .btn:hover { background-color: #000060; }
+    </style>
    </style>
 </head>
 <body>
@@ -148,6 +180,7 @@
 </body>
 
 </html>
+
 
 
 
