@@ -3,7 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <title>Student Dashboard</title>
+    <link rel="icon" type="image/png" href="coursekit.png">
    <style>/* MOBILE FIXES (APP MODE) */
+        /* BASE STYLES */
+        body { 
+            font-family: 'Segoe UI', sans-serif; 
+            background-color: #f4f4f9; 
+            display: flex; 
+            justify-content: center; 
+            /* Remove fixed padding-top so it centers better on mobile */
+            padding: 20px; 
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+
+        .card { 
+            background: white; 
+            padding: 40px; 
+            width: 100%; 
+            max-width: 600px; 
+            border-radius: 12px; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
+            height: fit-content; /* Important for alignment */
+        }
+
+        h1 { color: #000080; text-align: center; margin-top: 0; }
+        .info-box { background: #eef; padding: 15px; border-left: 5px solid #000080; margin-bottom: 20px; border-radius: 4px; }
+        .course-list { list-style: none; padding: 0; }
+        
+        .course-btn { 
+            background: #fff; 
+            border: 1px solid #ddd; 
+            border-left: 5px solid #000080;
+            width: 100%; 
+            padding: 15px; 
+            margin-bottom: 10px; 
+            text-align: left;
+            cursor: pointer; 
+            transition: all 0.2s; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
+            border-radius: 6px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .course-btn:active { transform: scale(0.98); background: #f0f0ff; } /* Tap effect for phone */
+        .course-code { font-weight: bold; font-size: 18px; color: #333; }
+        .course-title { color: #666; font-size: 14px; margin-top: 2px;}
+        .arrow { font-weight: bold; color: #000080; font-size: 18px; }
+        .back-btn { display: block; width: 100%; text-align: center; margin-top: 20px; padding: 15px; background: #555; color: white; text-decoration: none; border-radius: 8px; font-weight: bold;}
+
+        /* MOBILE FIXES */
+        @media (max-width: 600px) {
+            .card {
+                padding: 20px; /* Reduce padding significantly */
+            }
+            h1 { font-size: 24px; }
+            .course-btn {
+                padding: 12px; /* Smaller buttons */
+            }
+            .course-code { font-size: 16px; }
+            .course-title { font-size: 13px; }
+        }
         @media (max-width: 600px) {
             body {
                 padding: 0; /* Remove grey edges */
@@ -187,4 +248,5 @@
 </body>
 
 </html>
+
 
